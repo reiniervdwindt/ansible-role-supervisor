@@ -1,0 +1,9 @@
+---
+
+supervisor_template: "default.j2"
+supervisor_apps:
+  - name: "example"
+    opts:
+      - "command=whoami"
+      - "user=ubuntu"
+      - "redirect_stderr=true"

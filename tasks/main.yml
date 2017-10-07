@@ -1,0 +1,20 @@
+---
+
+- name: "Install supervisor"
+  become: yes
+  apt: name=supervisor state=latest
+
+- name: "Create the configurations for the supervisor apps"
+  become: yes
+  template: src="{{ supervisor_template }}" dest="/etc/supervisor/conf.d/{{ item['name'] }}.conf" backup=yes
+  with_items: "{{ supervisor_apps }}"
+
+- name: "Ensure supervisor apps are present"
+  become: yes
+  supervisorctl: name="{{ item['name'] }}" state=present
+  with_items: "{{ supervisor_apps }}"
+
+- name: "Ensure supervisor apps are restarted"
+  become: yes
+  supervisorctl: name="{{ item['name'] }}" state=restarted
+  with_items: "{{ supervisor_apps }}"

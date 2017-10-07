@@ -1,0 +1,4 @@
+[program:{{ item['name'] }}]
+{% for v in item['opts'] %}
+{{ v }}
+{% endfor %}
